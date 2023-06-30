@@ -11,6 +11,9 @@ import {
 } from "./types";
 import type { AbortController as AbortControllerPolyfill } from "abort-controller";
 
+// Alex
+import { HttpsProxyAgent } from "https-proxy-agent";
+
 let AbortController:
   | typeof globalThis.AbortController
   | typeof AbortControllerPolyfill;
@@ -22,6 +25,8 @@ if (!globalThis.AbortController) {
   // AbortController available in v14.17.0 as experimental
   AbortController = globalThis.AbortController;
 }
+
+
 
 export interface RequestOptions extends Omit<RequestInit, "body"> {
   auth?: AuthClient;
@@ -38,6 +43,13 @@ async function fetchWithRetries(
   init: RequestInit,
   max_retries = 0
 ): Promise<Response> {
+  // Alex
+  if (process.env.TWITTER_PROXY_URL) {
+    // e.g. https://alex@bonfiremedia.com:9M1:Df-6i5wWLs@108.62.187.239:8080
+    const proxyAgent = new HttpsProxyAgent(process.env.TWITTER_PROXY_URL);
+    init.agent = proxyAgent
+  }
+
   const res = await fetch(url, init);
   if (res.status === 429 && max_retries > 0) {
     const rateLimitReset = Number(res.headers.get("x-rate-limit-reset"));

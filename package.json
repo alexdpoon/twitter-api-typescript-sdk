@@ -14,7 +14,8 @@
     "prepublishOnly": "yarn test",
     "build:watch": "tsc --watch",
     "test": "jest",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "abort-controller": "^3.0.0",

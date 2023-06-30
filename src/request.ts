@@ -45,10 +45,10 @@ async function fetchWithRetries(
 ): Promise<Response> {
   // Alex
   if (process.env.TWITTER_API_PROXY_URL) {
+    console.log(`twitter-api-typescripts-sdk: request.fetchWithRetries() using proxy: ${process.env.TWITTER_API_PROXY_URL}`)
     // e.g. https://username:password@108.62.187.239:8080
     const proxyAgent = new HttpsProxyAgent(process.env.TWITTER_API_PROXY_URL);
     init.agent = proxyAgent
-    console.log(`twitter-api-typescripts-sdk: request.fetchWithRetries() using proxy: ${process.env.TWITTER_API_PROXY_URL}`)
   }
 
   const res = await fetch(url, init);

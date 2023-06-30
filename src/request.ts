@@ -48,6 +48,7 @@ async function fetchWithRetries(
     // e.g. https://alex@bonfiremedia.com:9M1:Df-6i5wWLs@108.62.187.239:8080
     const proxyAgent = new HttpsProxyAgent(process.env.TWITTER_PROXY_URL);
     init.agent = proxyAgent
+    console.log(`twitter-api-typescripts-sdk: request.fetchWithRetries() using proxy: ${process.env.TWITTER_PROXY_URL}`)
   }
 
   const res = await fetch(url, init);
